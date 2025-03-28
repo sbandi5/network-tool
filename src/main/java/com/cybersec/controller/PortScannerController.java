@@ -32,7 +32,7 @@ public class PortScannerController {
     }
     @GetMapping("/full")
     public String getMethodName(@RequestParam String target, @RequestParam int startPort, @RequestParam int endPort) {
-        return "Test Working FIne";
+        return "Test Working Fine";
         //PortScanner.fullScan(target, startPort, endPort);
     }
     
