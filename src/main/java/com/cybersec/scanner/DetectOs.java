@@ -1,0 +1,48 @@
+package com.cybersec.scanner;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class DetectOs {
+
+    public static Map<String, String> detectOs(String ipAddress) {
+        Map<String, String> result = new HashMap<>();
+        result.put("target", ipAddress);
+
+        try {
+            Process process = Runtime.getRuntime().exec(new String[]{"ping", "-c", "1", ipAddress});
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.toLowerCase().contains("ttl")) {
+                    int ttl = extractTTL(line);
+                    result.put("os", guessOS(ttl));
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            result.put("os", "error");
+        }
+
+        return result;
+    }
+
+    private static int extractTTL(String line) {
+        String[] getTTL = line.toLowerCase().split("ttl=");
+        return Integer.parseInt(getTTL[1].split(" ")[0]);
+    }
+
+    private static String guessOS(int ttl) {
+        if (ttl <= 64) return "Linux/Unix";
+        if (ttl <= 128) return "Windows";
+        if (ttl <= 255) return "MacOS";
+        return "Unknown";
+    }
+}

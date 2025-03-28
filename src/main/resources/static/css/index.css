@@ -1,0 +1,32 @@
+.container {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    background: #282c34;
+    color: white;
+    border-radius: 10px;
+}
+
+input, select, button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+}
+
+
+.range_input{
+    display :none;
+    flex-direction: column;
+}
+button {
+    background: #61dafb;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #4fa3d1;
+}

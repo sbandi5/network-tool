@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Port Scanner Dashboard</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Port Scanner Dashboard</h1>
+
+        
+
+        <label>Scan Type:</label>
+        <select onchange="displayContainer()" id="scanType">
+            <option  value="tcp">TCP Scan</option>
+            <option  value="syn">SYN Scan</option>
+            <option  value="udp">UDP Scan</option>
+            <option  value="full">Full Scan</option>
+            <option value="exploit">Exploit Test</option>
+
+        </select>
+        <label>Target IP:</label>
+        <input type="text" id="target" placeholder="Enter Target IP">
+
+        <div class="single_input" id="single_input">
+            <label>Port:</label>
+            <input type="number" id="port" placeholder="Enter Port Number"> 
+        </div>
+        <div class="range_input" id="range_input">
+            <label>Start Port:</label>
+            <input type="number" id="startPort" placeholder="Enter Start Port">
+
+            <label>End Port:</label>
+            <input type="number" id="endPort" placeholder="Enter End Port">
+        </div>
+        <button onclick="startScan()" >Start Scan</button>
+
+        <h2>Results:</h2>
+        <p id="results"></p>
+    </div>
+    <script>
+        
+    </script>
+    <script src="./index.js"></script>
+</body>
+</html>
