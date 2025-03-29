@@ -45,7 +45,11 @@ async function startScan() {
             } catch (error) {
                 resultsDiv.textContent = "Error: " + error;
             }
-        } else {
+        } else if (scanType === "brute") {
+            let response = fetch(`http://localhost:8080/api/exploit/brute-ssh?target=${target}&port=${port}`);
+            let result = await response;
+            resultsDiv.textContent = "Brute Force Result: " + JSON.stringify(result, null, 2);
+        }else {
             console.log("Scan type: " + scanType + " Target: " + target + " Port: " + port);
             let response = await fetch(`/api/scanner/${scanType}?target=${target}&port=${port}`,{
                 method: 'GET'

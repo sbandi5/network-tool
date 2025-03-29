@@ -16,10 +16,18 @@ public class DetectOs {
         result.put("target", ipAddress);
 
         try {
-            Process process = Runtime.getRuntime().exec(new String[]{"ping", "-c", "1", ipAddress});
+            String os = System.getProperty("os.name").toLowerCase();
+            System.out.println("Operating System: " + os);
+            String[] command;
+            if (os.contains("win")) {
+                command = new String[]{"ping", "-n", "1", ipAddress};
+            } else {
+                command = new String[]{"ping", "-c", "1", ipAddress};
+            }
+            Process process = Runtime.getRuntime().exec(command);
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
-
+            
             while ((line = reader.readLine()) != null) {
                 if (line.toLowerCase().contains("ttl")) {
                     int ttl = extractTTL(line);
@@ -40,9 +48,13 @@ public class DetectOs {
     }
 
     private static String guessOS(int ttl) {
-        if (ttl <= 64) return "Linux/Unix";
-        if (ttl <= 128) return "Windows";
-        if (ttl <= 255) return "MacOS";
-        return "Unknown";
+        if (ttl <= 64)
+            return "Linux/Unix";
+        else if (ttl <= 128) 
+            return "Windows";
+        else if (ttl <= 255) 
+            return "MacOS";
+        else
+            return "Unknown";
     }
 }
