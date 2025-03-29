@@ -10,6 +10,35 @@ function displayContainer() {
         document.getElementById("range_input").style.display = "none";
     }
 }
+
+async function viewBruteLog() {
+    let resultsDiv = document.getElementById("results");
+    resultsDiv.textContent = "Fetching brute force log...\n";
+
+    let response = await fetch("http://localhost:8080/api/exploit/brute-log");
+    let result = await response.json();
+    console.log(result);
+    for (const [key, value] of Object.entries(result)) {
+        resultsDiv.textContent += `${value}\n`;
+    }
+}
+function fetchPackets() {
+    let resultsDiv = document.getElementById("results");
+    resultsDiv.textContent = "Capturing packets...";
+
+    fetch("http://localhost:8080/api/sniffer/packets")
+        .then(response => response.json())
+        .then(packets => {
+            let formatted = packets.map(p => {
+                return `From ${p.sourceIP}:${p.sourcePort} | Length: ${p.length} \nData: ${p.data}`;
+            }).join("\n\n");
+            resultsDiv.textContent = formatted;
+        })
+        .catch(err => {
+            resultsDiv.textContent = "Error: " + err;
+        });
+}
+
 async function startScan() {
     let target = document.getElementById("target").value;
     let port = parseInt(document.getElementById("port").value);

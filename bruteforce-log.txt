@@ -1,0 +1,12 @@
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: root | Pass: 1234 | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: root | Pass: password | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: root | Pass: admin | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: root | Pass: toor | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: admin | Pass: 1234 | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: admin | Pass: password | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: admin | Pass: admin | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: admin | Pass: toor | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: user | Pass: 1234 | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: user | Pass: password | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: user | Pass: admin | Result: FAILED
+Sat Mar 29 15:08:58 EDT 2025 | Target: localhost:22 | User: user | Pass: toor | Result: FAILED

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
+    <button><a href="./sniffer.html">go to the sniffer</a></button>
     <div class="container">
         <h1>Port Scanner Dashboard</h1>
 
@@ -20,8 +21,7 @@
             <option  value="full">Full Scan</option>
             <option value="exploit">Exploit Test</option>
             <option value="brute">Brute Force</option>
-
-
+            
         </select>
         <label>Target IP:</label>
         <input type="text" id="target" placeholder="Enter Target IP">
@@ -38,6 +38,9 @@
             <input type="number" id="endPort" placeholder="Enter End Port">
         </div>
         <button onclick="startScan()" >Start Scan</button>
+        <button onclick="viewBruteLog()">View Brute Force Log</button>
+        <button onclick="fetchPackets()">View Captured Packets</button>
+
 
         <h2>Results:</h2>
         <p id="results"></p>
