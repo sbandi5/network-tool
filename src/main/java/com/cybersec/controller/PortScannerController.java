@@ -31,9 +31,12 @@ public class PortScannerController {
         return DetectOs.detectOs(target);
     }
     @GetMapping("/full")
-    public String getMethodName(@RequestParam String target, @RequestParam int startPort, @RequestParam int endPort) {
-        return "Test Working Fine";
-        //PortScanner.fullScan(target, startPort, endPort);
+    public Map<String, Object> getMethodName(@RequestParam String target, @RequestParam int startPort, @RequestParam int endPort) {
+        long startTime = System.currentTimeMillis();
+        Map<String, Object> result = PortScanner.fullScan(target, startPort, endPort);
+        long endTime = System.currentTimeMillis();
+        System.out.println("timeTaken "+ (endTime - startTime)/1000 + "s");
+        return result;
     }
     
 }

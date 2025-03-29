@@ -67,17 +67,44 @@ public class PortScanner {
 
         return result;
     }
-    // Run a full scan (all methods)
-    public static void fullScan(String target, int startPort, int endPort) {
+    // Run a full scan (all methods) with multithreading
+    public static Map<String, Object> fullScan(String target, int startPort, int endPort) {
         System.out.println("Starting Full Scan on " + target + " (Ports " + startPort + "-" + endPort + ")");
 
+        Map<Integer, Map<String, String>> portResults = new HashMap<>();
+
+        // Create a thread for each port scan
         for (int port = startPort; port <= endPort; port++) {
-            System.out.println(tcpConnectScan(target, port));
+            final int currentPort = port; // Use a final variable for the lambda
+            new Thread(() -> {
+                Map<String, String> result = tcpConnectScan(target, currentPort);
+                
+                if (result.get("status").equals("open")) {
+                    synchronized (portResults) {
+                        portResults.put(currentPort, result);
+                    }
+                    System.out.println("Port " + currentPort + " is open. Service: " + result.get("service"));
+                }
+            }).start();
         }
 
-        // Map<String, String> detectedOS = DetectOs.detectOs(target);
-        // System.out.println("Detected OS: " + detectedOS.get("os"));
-        // System.out.println("Full scan completed.");
+        // Wait for all threads to complete
+        try {
+            Thread.sleep((endPort - startPort + 1) * TIMEOUT);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // Detect OS
+        Map<String, String> detectedOS = DetectOs.detectOs(target);
+        System.out.println("Detected OS: " + detectedOS.get("os"));
+
+        // Combine results
+        Map<String, Object> fullScanResults = new HashMap<>();
+        fullScanResults.put("ports", portResults);
+        fullScanResults.put("os", detectedOS.get("os"));
+
+        return fullScanResults;
     }
 
     public static Map<String, String> grabBanner(String ipAddress, int port) {

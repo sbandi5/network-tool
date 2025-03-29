@@ -28,6 +28,7 @@ async function startScan() {
                     method: 'GET'
                 });
                 let results = await response.json();
+                console.log(results);
                 resultsDiv.textContent = "Scan Results: " + JSON.stringify(results, null, 2);
 
             } catch (error) {
@@ -36,10 +37,9 @@ async function startScan() {
 
         } else if (scanType === "exploit") {
             try {
-                let response = await fetch(`/api/exploit?target=${target}&port=${port}`,{
-                    method: 'POST',
+                let response = await fetch(`/api/exploit/run?target=${target}&port=${port}`,{
+                    method: 'GET',
                 });
-                console.log("response is: "+response.json());
                 let result = await response.json();
                 resultsDiv.textContent = "Exploit Result: " + JSON.stringify(result, null, 2);
             } catch (error) {
