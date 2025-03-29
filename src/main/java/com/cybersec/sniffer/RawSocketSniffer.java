@@ -3,7 +3,7 @@ package com.cybersec.sniffer;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.cybersec.websocket.PacketWebSocketHandler;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.DatagramPacket;
@@ -38,6 +38,7 @@ public class RawSocketSniffer {
 
                 while (running && (line = reader.readLine()) != null) {
                     try {
+                        PacketWebSocketHandler.broadcast(line);
                         Map<String, Object> json = new ObjectMapper().readValue(line, Map.class);
 
                         Map<String, String> data = new HashMap<>();

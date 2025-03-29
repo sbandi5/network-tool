@@ -3,39 +3,89 @@ import struct
 import json
 import sys
 
-def parse_ip_header(data):
+def ethernet_frame(data):
+    dest_mac, src_mac, proto = struct.unpack('!6s6sH', data[:14])
+    return socket.ntohs(proto), data[14:]
+
+def ipv4_packet(data):
     version_header_len = data[0]
-    header_len = (version_header_len & 15) * 4
-    proto = data[9]
-    src = socket.inet_ntoa(data[12:16])
-    dst = socket.inet_ntoa(data[16:20])
-    return header_len, proto, src, dst
+    header_length = (version_header_len & 15) * 4
+    ttl, proto, src, target = struct.unpack('!8xBB2x4s4s', data[:20])
+    return {
+        'version': version_header_len >> 4,
+        'header_length': header_length,
+        'ttl': ttl,
+        'protocol': proto,
+        'source_ip': socket.inet_ntoa(src),
+        'dest_ip': socket.inet_ntoa(target),
+        'data': data[header_length:]
+    }
+
+def tcp_segment(data):
+    src_port, dest_port, sequence, ack, offset_reserved_flags = struct.unpack('!HHLLH', data[:14])
+    offset = (offset_reserved_flags >> 12) * 4
+    flags = offset_reserved_flags & 0x3F
+    return {
+        'src_port': src_port,
+        'dest_port': dest_port,
+        'sequence': sequence,
+        'flags': flags,
+        'header_length': offset,
+        'data': data[offset:]
+    }
+
+def udp_segment(data):
+    src_port, dest_port, size = struct.unpack('!HHH2x', data[:8])
+    return {
+        'src_port': src_port,
+        'dest_port': dest_port,
+        'length': size,
+        'data': data[8:]
+    }
 
 def sniff():
     try:
-        s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))  # Ethernet frame
+        s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.ntohs(3))
     except PermissionError:
-        print("Must run as root")
+        print("Run as root", file=sys.stderr)
         sys.exit(1)
 
     while True:
-        raw_data, addr = s.recvfrom(65535)
+        raw_data, _ = s.recvfrom(65535)
 
-        # IP Packet starts after Ethernet header (14 bytes)
-        eth_proto = struct.unpack('!H', raw_data[12:14])[0]
+        eth_proto, ip_data = ethernet_frame(raw_data)
+        if eth_proto == 8:  # IPv4
+            ip = ipv4_packet(ip_data)
+            protocol = ip['protocol']
+            payload = ""
 
-        if eth_proto == 0x0800:  # IPv4
-            ip_header_len, proto, src_ip, dst_ip = parse_ip_header(raw_data[14:34])
-            proto_name = {1: "ICMP", 6: "TCP", 17: "UDP"}.get(proto, f"OTHER({proto})")
-
-            packet_info = {
-                "source_ip": src_ip,
-                "dest_ip": dst_ip,
-                "protocol": proto_name,
-                "length": len(raw_data)
+            pkt = {
+                'source_ip': ip['source_ip'],
+                'dest_ip': ip['dest_ip'],
+                'ttl': ip['ttl'],
+                'protocol': {1: "ICMP", 6: "TCP", 17: "UDP"}.get(protocol, str(protocol))
             }
 
-            print(json.dumps(packet_info), flush=True)
+            if protocol == 6:  # TCP
+                tcp = tcp_segment(ip['data'])
+                pkt.update({
+                    'src_port': tcp['src_port'],
+                    'dest_port': tcp['dest_port'],
+                    'sequence': tcp['sequence'],
+                    'flags': tcp['flags'],
+                    'payload': tcp['data'][:40].hex()  # First 40 bytes as hex
+                })
+
+            elif protocol == 17:  # UDP
+                udp = udp_segment(ip['data'])
+                pkt.update({
+                    'src_port': udp['src_port'],
+                    'dest_port': udp['dest_port'],
+                    'length': udp['length'],
+                    'payload': udp['data'][:40].hex()
+                })
+
+            print(json.dumps(pkt), flush=True)
 
 if __name__ == '__main__':
     sniff()

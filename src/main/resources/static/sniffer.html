@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,13 +12,16 @@
       color: white;
       padding: 20px;
     }
+
     .container {
       max-width: 900px;
       margin: auto;
     }
+
     h1 {
       text-align: center;
     }
+
     button {
       margin: 10px 5px;
       padding: 10px 20px;
@@ -28,6 +32,7 @@
       cursor: pointer;
       border-radius: 5px;
     }
+
     #packetLog {
       margin-top: 20px;
       background: #2d2d2d;
@@ -39,15 +44,18 @@
       font-family: monospace;
       font-size: 14px;
     }
+
     .mode-select {
       margin: 20px 0;
     }
+
     .port-input {
       display: none;
       margin-top: 10px;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Wireshark-like Packet Sniffer</h1>
@@ -72,9 +80,15 @@
     </div>
 
     <div id="packetLog">Packet data will appear here...</div>
+    <button onclick="startLive()">Start Live View</button>
+    <div id="liveLog"
+      style="background:#111; margin-top:20px; padding:10px; max-height:300px; overflow-y:auto; font-family:monospace;">
+    </div>
+
   </div>
 
   <script src="./sniffer.js"></script>
-    
+
 </body>
+
 </html>

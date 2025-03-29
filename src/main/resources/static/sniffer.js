@@ -41,10 +41,30 @@ function togglePortInput() {
     fetch(url)
         .then(res => res.json())
         .then(data => {
-            const log = data.map(p => 
-                `[${p.timestamp}] ${p.sourceIP} → ${p.destIP} | ${p.protocol} | Length: ${p.length}`
-            ).join("\n\n");
+          const log = data.map(p => {
+            let line = `[${p.timestamp}] ${p.sourceIP}:${p.src_port || ''} → ${p.destIP}:${p.dest_port || ''}`;
+            line += ` | Protocol: ${p.protocol}`;
+            if (p.payload) line += ` | Payload (hex): ${p.payload}`;
+            return line;
+          }).join("\n\n");
+          
 
             resultsDiv.textContent = log || "No packets found.";
         });
+}
+function startLive() {
+  const logBox = document.getElementById("liveLog");
+  const socket = new WebSocket("ws://localhost:8080/ws/packets");
+
+  socket.onmessage = function (event) {
+      const pkt = JSON.parse(event.data);
+      const line = `[${pkt.protocol}] ${pkt.source_ip}:${pkt.src_port || ''} → ${pkt.dest_ip}:${pkt.dest_port || ''}`;
+      const div = document.createElement("div");
+      div.textContent = line;
+      logBox.appendChild(div);
+      logBox.scrollTop = logBox.scrollHeight;
+  };
+
+  socket.onopen = () => console.log("Live WebSocket connected");
+  socket.onclose = () => console.log("WebSocket closed");
 }
