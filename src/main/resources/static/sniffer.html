@@ -1,94 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wireshark-like Packet Sniffer</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #1e1e1e;
-      color: white;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    button {
-      margin: 10px 5px;
-      padding: 10px 20px;
-      background-color: #61dafb;
-      border: none;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    #packetLog {
-      margin-top: 20px;
-      background: #2d2d2d;
-      padding: 10px;
-      border-radius: 8px;
-      white-space: pre-wrap;
-      max-height: 500px;
-      overflow-y: auto;
-      font-family: monospace;
-      font-size: 14px;
-    }
-
-    .mode-select {
-      margin: 20px 0;
-    }
-
-    .port-input {
-      display: none;
-      margin-top: 10px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>CyberStream - Packet Sniffer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/index.css">
 </head>
-
 <body>
-  <div class="container">
-    <h1>Wireshark-like Packet Sniffer</h1>
+  <header>
+    <img src="./logo.png" alt="Logo">
+    <h1>CyberStream - Packet Sniffer</h1>
+  </header>
 
-    <div class="mode-select">
-      <label for="mode">Select Sniffing Mode:</label>
+  <nav>
+    <a href="index.html">Smart Recon</a>
+    <a href="scanner.html">Port Scanner</a>
+    <a href="sniffer.html" class="active">Packet Sniffer</a>
+    <a href="exploit.html">Exploit Engine</a>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Live Packet Capture</h2>
+      <p>Start and stop packet sniffing. Captured packets will appear in real-time below.</p>
+
+      <label for="mode">Sniff Mode:</label>
       <select id="mode" onchange="togglePortInput()">
-        <option value="all">Capture All Interfaces</option>
-        <option value="port">Capture Specific Port</option>
+        <option value="all">All Interfaces</option>
+        <option value="port">Specific Port</option>
       </select>
 
-      <div class="port-input" id="portInput">
+      <div id="portInput" style="display:none; margin-top: 10px;">
         <label for="port">Port:</label>
-        <input type="number" id="port" placeholder="Enter port to sniff" />
+        <input type="number" id="port" placeholder="Enter port">
       </div>
-    </div>
 
-    <div>
-      <button onclick="startSniffer()">Start Sniffer</button>
-      <button onclick="stopSniffer()">Stop Sniffer</button>
-      <button onclick="fetchPackets()">View Captured Packets</button>
-    </div>
+      <div style="margin-top: 20px;">
+        <button onclick="startSniffer()">Start Sniffer</button>
+        <button onclick="stopSniffer()">Stop Sniffer</button>
+        <button onclick="fetchPackets()">Fetch History</button>
+        <button onclick="startLive()">Start Live</button>
+        <button onclick="stopLive()">Stop Live</button>
+      </div>
 
-    <div id="packetLog">Packet data will appear here...</div>
-    <button onclick="startLive()">Start Live View</button>
-    <div id="liveLog"
-      style="background:#111; margin-top:20px; padding:10px; max-height:300px; overflow-y:auto; font-family:monospace;">
-    </div>
+      <pre id="packetLog">[Packet log will appear here]</pre>
+      <div id="liveLog"></div>
+    </section>
+  </main>
 
-  </div>
+  <script>
+    function togglePortInput() {
+      const mode = document.getElementById("mode").value;
+      const portDiv = document.getElementById("portInput");
+      portDiv.style.display = (mode === "port") ? "block" : "none";
+    }
 
-  <script src="./sniffer.js"></script>
+    function startSniffer() {
+      const mode = document.getElementById("mode").value;
+      let url = "http://localhost:8080/api/sniffer/start";
 
+      if (mode === "port") {
+        const port = document.getElementById("port").value;
+        url += `?port=${port}`;
+      }
+
+      fetch(url, { method: "POST" })
+        .then(res => res.text())
+        .then(msg => {
+          document.getElementById("packetLog").textContent = msg;
+        });
+    }
+
+    function stopSniffer() {
+      fetch("http://localhost:8080/api/sniffer/stop", {
+        method: "POST"
+      })
+        .then(res => res.text())
+        .then(msg => {
+          document.getElementById("packetLog").textContent = msg;
+        });
+    }
+
+    function fetchPackets() {
+      const filter = prompt("Enter protocol to filter (TCP, UDP, ICMP), or leave blank:");
+      const resultsDiv = document.getElementById("packetLog");
+      let url = "http://localhost:8080/api/sniffer/packets";
+      if (filter) {
+          url += "?protocol=" + filter.toUpperCase();
+      }
+
+      fetch(url)
+          .then(res => res.json())
+          .then(data => {
+            const log = data.map(p => {
+              let line = `[${p.timestamp}] ${p.sourceIP}:${p.src_port || ''} → ${p.destIP}:${p.dest_port || ''}`;
+              line += ` | Protocol: ${p.protocol}`;
+              if (p.payload) line += ` | Payload (hex): ${p.payload}`;
+              return line;
+            }).join("\n\n");
+
+            resultsDiv.textContent = log || "No packets found.";
+          });
+    }
+
+    let liveSocket = null;
+
+    function startLive() {
+      window.alert("Starting live packet capture. Click 'Stop Live' to stop capturing.");
+      const logBox = document.getElementById("liveLog");
+
+      if (liveSocket !== null) {
+          console.log("Live WebSocket already running.");
+          return;
+      }
+
+      liveSocket = new WebSocket("ws://localhost:8080/ws/packets");
+
+      liveSocket.onmessage = function (event) {
+          const pkt = JSON.parse(event.data);
+          const line = `[${pkt.protocol}] ${pkt.source_ip}:${pkt.src_port || ''} → ${pkt.dest_ip}:${pkt.dest_port || ''}`;
+          const div = document.createElement("div");
+          div.textContent = line;
+          logBox.appendChild(div);
+          logBox.scrollTop = logBox.scrollHeight;
+      };
+
+      liveSocket.onopen = () => console.log("Live WebSocket connected");
+      liveSocket.onclose = () => {
+          console.log("Live WebSocket closed");
+          window.alert("Stopping live packet capture.");
+          liveSocket = null;
+      };
+    }
+
+    function stopLive() {
+      if (liveSocket !== null) {
+          liveSocket.close();
+          liveSocket = null;
+          console.log("Live WebSocket manually stopped");
+      } else {
+          console.log("Live WebSocket not running");
+      }
+    }
+  </script>
 </body>
-
 </html>

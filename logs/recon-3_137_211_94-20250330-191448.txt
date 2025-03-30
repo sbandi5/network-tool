@@ -1,0 +1,16 @@
+Starting Smart Reconnaissance
+Target: 3.137.211.94
+Scanning ports 20 to 100
+
+Port 22 is OPEN, service: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.8
+Port 80 is OPEN, service: HTTP/1.1 301 Moved Permanently
+
+Attempting Banner Grabbing...
+Port 22: SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.8
+Running brute force simulation on port 22...
+Brute Force Result:
+Status: no valid credentials found
+Port 80: HTTP/1.1 301 Moved Permanently
+
+Starting packet sniffer on open ports...
+Sniffer Error: Server returned HTTP response code: 405 for URL: http://localhost:8080/api/sniffer/start?port=22

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CyberStream - Port Scanner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+  <header>
+    <img src="./logo.png" alt="Logo">
+    <h1>CyberStream - Port Scanner</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Smart Recon</a>
+    <a href="scanner.html" class="active">Port Scanner</a>
+    <a href="sniffer.html">Packet Sniffer</a>
+    <a href="exploit.html">Exploit Engine</a>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Port Scanning</h2>
+      <p>Enter the target IP address and port(s) to scan. Select the scan type (TCP, UDP, Full).</p>
+
+      <label for="target">Target IP:</label><br>
+      <input type="text" id="target" placeholder="e.g. 192.168.1.1"><br><br>
+
+      <label for="startPort">Start Port:</label>
+      <input type="number" id="startPort" value="20">
+      <label for="endPort">End Port:</label>
+      <input type="number" id="endPort" value="100"><br><br>
+
+      <label for="scanType">Scan Type:</label>
+      <select id="scanType">
+        <option value="tcp">TCP</option>
+        <option value="udp">UDP</option>
+        <option value="full">Full</option>
+      </select>
+
+      <br><br>
+      <button onclick="startScan()">Start Scan</button>
+
+      <pre id="scannerOutput">[Scanner results will appear here]</pre>
+    </section>
+  </main>
+
+  <script>
+    function startScan() {
+      const target = document.getElementById("target").value;
+      const startPort = parseInt(document.getElementById("startPort").value);
+      const endPort = parseInt(document.getElementById("endPort").value);
+      const scanType = document.getElementById("scanType").value;
+      const output = document.getElementById("scannerOutput");
+
+      output.textContent = "Scanning...";
+
+      let url = '';
+      if(scanType === 'full') {
+        url = `http://localhost:8080/api/scanner/full?target=${target}&startPort=${startPort}&endPort=${endPort}`;
+      } else {  
+         url = `http://localhost:8080/api/scanner/${scanType}?target=${target}&port=${startPort}`;
+      }
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          output.textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(err => {
+          output.textContent = "Error: " + err;
+        });
+    }
+  </script>
+</body>
+</html>

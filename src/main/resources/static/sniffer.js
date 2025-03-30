@@ -52,19 +52,43 @@ function togglePortInput() {
             resultsDiv.textContent = log || "No packets found.";
         });
 }
+let liveSocket = null;
+
 function startLive() {
-  const logBox = document.getElementById("liveLog");
-  const socket = new WebSocket("ws://localhost:8080/ws/packets");
+  window.alert("Starting live packet capture. Click 'Stop Live' to stop capturing.");
+    const logBox = document.getElementById("liveLog");
 
-  socket.onmessage = function (event) {
-      const pkt = JSON.parse(event.data);
-      const line = `[${pkt.protocol}] ${pkt.source_ip}:${pkt.src_port || ''} → ${pkt.dest_ip}:${pkt.dest_port || ''}`;
-      const div = document.createElement("div");
-      div.textContent = line;
-      logBox.appendChild(div);
-      logBox.scrollTop = logBox.scrollHeight;
-  };
+    if (liveSocket !== null) {
+        console.log("Live WebSocket already running.");
+        return;
+    }
 
-  socket.onopen = () => console.log("Live WebSocket connected");
-  socket.onclose = () => console.log("WebSocket closed");
+    liveSocket = new WebSocket("ws://localhost:8080/ws/packets");
+
+    liveSocket.onmessage = function (event) {
+        const pkt = JSON.parse(event.data);
+        const line = `[${pkt.protocol}] ${pkt.source_ip}:${pkt.src_port || ''} → ${pkt.dest_ip}:${pkt.dest_port || ''}`;
+        const div = document.createElement("div");
+        div.textContent = line;
+        logBox.appendChild(div);
+        logBox.scrollTop = logBox.scrollHeight;
+    };
+
+    liveSocket.onopen = () => console.log("Live WebSocket connected");
+    liveSocket.onclose = () => {
+        console.log("Live WebSocket closed");
+        window.alert("Stopping live packet capture.");
+        liveSocket = null;
+    };
 }
+
+function stopLive() {
+    if (liveSocket !== null) {
+        liveSocket.close();
+        liveSocket = null;
+        console.log("Live WebSocket manually stopped");
+    } else {
+        console.log("Live WebSocket not running");
+    }
+}
+

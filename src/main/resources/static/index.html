@@ -1,53 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Port Scanner Dashboard</title>
-    <link rel="stylesheet" href="./css/index.css">
+  <meta charset="UTF-8">
+  <title>CyberStream - Smart Reconnaissance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
-    <button><a href="./sniffer.html">go to the sniffer</a></button>
-    <div class="container">
-        <h1>Port Scanner Dashboard</h1>
+  <header>
+    <img src="./logo.png" alt="Logo">
+    <h1>CyberStream - Smart Reconnaissance</h1>
+  </header>
 
-        
+  <nav>
+    <a href="index.html" class="active">Smart Recon</a>
+    <a href="scanner.html">Port Scanner</a>
+    <a href="sniffer.html">Packet Sniffer</a>
+    <a href="exploit.html">Exploit Engine</a>
+  </nav>
 
-        <label>Scan Type:</label>
-        <select onchange="displayContainer()" id="scanType">
-            <option  value="tcp">TCP Scan</option>
-            <option  value="syn">SYN Scan</option>
-            <option  value="udp">UDP Scan</option>
-            <option  value="full">Full Scan</option>
-            <option value="exploit">Exploit Test</option>
-            <option value="brute">Brute Force</option>
-            
-        </select>
-        <label>Target IP:</label>
-        <input type="text" id="target" placeholder="Enter Target IP">
+  <main>
+    <section>
+      <h2>Smart Reconnaissance</h2>
+      <p>Automate scanning, sniffing, and basic exploitation on a target.</p>
 
-        <div class="single_input" id="single_input">
-            <label>Port:</label>
-            <input type="number" id="port" placeholder="Enter Port Number"> 
-        </div>
-        <div class="range_input" id="range_input">
-            <label>Start Port:</label>
-            <input type="number" id="startPort" placeholder="Enter Start Port">
+      <label for="smartTarget">Target IP:</label>
+      <input type="text" id="smartTarget" placeholder="e.g. 192.168.1.1"><br><br>
+      <label for="startPort">Start port</label>
+      <input type="number" id="startPort" placeholder="e.g. 20">
+      <label for="endPort">End port</label>
+      <input type="number" id="endPort" placeholder="e.g. 100"><br><br>
+      <button onclick="runSmartRecon()">Run Smart Recon</button>
+      
+      <h3>Scan Report (Raw)</h3>
+      <pre id="smartLog">[Results will appear here]</pre>
 
-            <label>End Port:</label>
-            <input type="number" id="endPort" placeholder="Enter End Port">
-        </div>
-        <button onclick="startScan()" >Start Scan</button>
-        <button onclick="viewBruteLog()">View Brute Force Log</button>
-        <button onclick="fetchPackets()">View Captured Packets</button>
+      <h3>Parsed Open Ports Table</h3>
+      <table id="smartTable">
+        <thead>
+          <tr>
+            <th>Port</th>
+            <th>Service</th>
+            <th>Status</th>
+            <th>Vulnerability</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
 
+  <script>
+    function runSmartRecon() {
+      const target = document.getElementById("smartTarget").value;
+      const logBox = document.getElementById("smartLog");
+      const tableBody = document.querySelector("#smartTable tbody");
+      const startPort = parseFloat(document.getElementById("startPort").value);
+      const endPort = parseFloat(document.getElementById("endPort").value);
 
-        <h2>Results:</h2>
-        <p id="results"></p>
-    </div>
-    <script>
-        
-    </script>
-    <script src="./index.js"></script>
+      logBox.textContent = "Running recon...";
+      tableBody.innerHTML = "";
+
+      fetch(`http://localhost:8080/api/smart/recon?target=${target}&startPort=${startPort}&endPort=${endPort}`)
+        .then(res => res.text())
+        .then(text => {
+          logBox.textContent = text;
+
+          // Parse output
+          const rows = [];
+          const lines = text.split("\n");
+          let port = "", service = "", vuln = "";
+
+          lines.forEach(line => {
+            if (line.startsWith("Port ") && line.includes("is OPEN")) {
+              port = line.split(" ")[1];
+              service = line.split("service: ")[1];
+              vuln = "";
+            }
+            if (line.startsWith("VULNERABLE:")) {
+              vuln = line.split("VULNERABLE: ")[1];
+            }
+            if (port && service) {
+              rows.push({ port, service, status: "open", vulnerability: vuln });
+              port = service = vuln = "";
+            }
+          });
+
+          rows.forEach(row => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${row.port}</td><td>${row.service}</td><td>${row.status}</td><td>${row.vulnerability || '-'}</td>`;
+            tableBody.appendChild(tr);
+          });
+        })
+        .catch(err => logBox.textContent = "Error: " + err);
+    }
+  </script>
 </body>
 </html>
