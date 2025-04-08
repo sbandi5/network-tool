@@ -1,3 +1,5 @@
+import ApiCalls from "./ApiCalls";
+const apiCalls = new ApiCalls();
 function togglePortInput() {
     const mode = document.getElementById("mode").value;
     const portDiv = document.getElementById("portInput");
@@ -6,7 +8,7 @@ function togglePortInput() {
 
   function startSniffer() {
     const mode = document.getElementById("mode").value;
-    let url = "http://localhost:8080/api/sniffer/start";
+    let url = "/api/sniffer/start";
 
     if (mode === "port") {
       const port = document.getElementById("port").value;
@@ -21,7 +23,7 @@ function togglePortInput() {
   }
 
   function stopSniffer() {
-    fetch("http://localhost:8080/api/sniffer/stop", {
+    fetch("/api/sniffer/stop", {
       method: "POST"
     })
       .then(res => res.text())
@@ -33,7 +35,7 @@ function togglePortInput() {
   function fetchPackets() {
     const filter = prompt("Enter protocol to filter (TCP, UDP, ICMP), or leave blank:");
     const resultsDiv = document.getElementById("packetLog");
-    let url = "http://localhost:8080/api/sniffer/packets";
+    let url = "/api/sniffer/packets";
     if (filter) {
         url += "?protocol=" + filter.toUpperCase();
     }
@@ -63,7 +65,7 @@ function startLive() {
         return;
     }
 
-    liveSocket = new WebSocket("ws://localhost:8080/ws/packets");
+    liveSocket = new WebSocket("ws://www.saimanikiranbandi.com:8080/ws/packets");
 
     liveSocket.onmessage = function (event) {
         const pkt = JSON.parse(event.data);

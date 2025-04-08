@@ -1,3 +1,5 @@
+import ApiCalls from "./ApiCalls";
+const apiCalls = new ApiCalls();
 function displayContainer() {
     var scanType = document.getElementById("scanType").value;
     console.log(scanType);
@@ -15,7 +17,7 @@ async function viewBruteLog() {
     let resultsDiv = document.getElementById("results");
     resultsDiv.textContent = "Fetching brute force log...\n";
 
-    let response = await fetch("http://localhost:8080/api/exploit/brute-log");
+    let response = await fetch("/api/exploit/brute-log");
     let result = await response.json();
     console.log(result);
     for (const [key, value] of Object.entries(result)) {
@@ -26,7 +28,7 @@ function fetchPackets() {
     let resultsDiv = document.getElementById("results");
     resultsDiv.textContent = "Capturing packets...";
 
-    fetch("http://localhost:8080/api/sniffer/packets")
+    fetch("/api/sniffer/packets")
         .then(response => response.json())
         .then(packets => {
             let formatted = packets.map(p => {
@@ -75,7 +77,7 @@ async function startScan() {
                 resultsDiv.textContent = "Error: " + error;
             }
         } else if (scanType === "brute") {
-            let response = fetch(`http://localhost:8080/api/exploit/brute-ssh?target=${target}&port=${port}`);
+            let response = fetch(`/api/exploit/brute-ssh?target=${target}&port=${port}`);
             let result = await response;
             resultsDiv.textContent = "Brute Force Result: " + JSON.stringify(result, null, 2);
         }else {
