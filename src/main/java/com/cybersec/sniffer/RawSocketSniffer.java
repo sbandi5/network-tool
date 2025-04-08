@@ -8,8 +8,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
 import java.util.*;
 
 @Service
@@ -29,7 +27,7 @@ public class RawSocketSniffer {
 
         new Thread(() -> {
             try {
-                ProcessBuilder pb = new ProcessBuilder("sudo", "python3", "/home/sai/network-tool/src/main/java/com/cybersec/sniffer/sniffer.py");
+                ProcessBuilder pb = new ProcessBuilder("sudo", "python3", "./sniffer.py");
                 pb.redirectErrorStream(true);
                 pythonProcess = pb.start();
 
