@@ -60,7 +60,7 @@
 
     function startSniffer() {
       const mode = document.getElementById("mode").value;
-      let url = "http://localhost:8080/api/sniffer/start";
+      let url = "/api/sniffer/start";
 
       if (mode === "port") {
         const port = document.getElementById("port").value;
@@ -75,7 +75,7 @@
     }
 
     function stopSniffer() {
-      fetch("http://localhost:8080/api/sniffer/stop", {
+      fetch("/api/sniffer/stop", {
         method: "POST"
       })
         .then(res => res.text())
