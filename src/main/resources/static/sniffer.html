@@ -87,7 +87,7 @@
     function fetchPackets() {
       const filter = prompt("Enter protocol to filter (TCP, UDP, ICMP), or leave blank:");
       const resultsDiv = document.getElementById("packetLog");
-      let url = "http://localhost:8080/api/sniffer/packets";
+      let url = "/api/sniffer/packets";
       if (filter) {
           url += "?protocol=" + filter.toUpperCase();
       }
@@ -117,7 +117,7 @@
           return;
       }
 
-      liveSocket = new WebSocket("ws://localhost:8080/ws/packets");
+      liveSocket = new WebSocket("ws://www.saimanikiranbandi.com:8080/ws/packets");
 
       liveSocket.onmessage = function (event) {
           const pkt = JSON.parse(event.data);
