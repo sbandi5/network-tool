@@ -27,7 +27,7 @@ public class RawSocketSniffer {
 
         new Thread(() -> {
             try {
-                ProcessBuilder pb = new ProcessBuilder("sudo", "python3", "./sniffer.py");
+                ProcessBuilder pb = new ProcessBuilder("sudo", "python3", "./src/main/java/com/cybersec/sniffer/sniffer.py");
                 pb.redirectErrorStream(true);
                 pythonProcess = pb.start();
 

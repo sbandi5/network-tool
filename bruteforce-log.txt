@@ -190,3 +190,75 @@ Sun Mar 30 19:53:06 EDT 2025 | Target: 3.137.211.94:22 | User: user | Pass: admi
 Sun Mar 30 19:53:06 EDT 2025 | Target: 3.137.211.94:22 | User: user | Pass: toor | Result: FAILED
 Sun Mar 30 19:53:06 EDT 2025 | Target: 3.137.211.94:22 | User: user | Pass:  | Result: FAILED
 Sun Mar 30 19:53:06 EDT 2025 | Target: 3.137.211.94:22 | User: user | Pass: saibandi | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: root | Pass: 1234 | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: root | Pass: password | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: root | Pass: admin | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: root | Pass: toor | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: root | Pass:  | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: root | Pass: saibandi | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: admin | Pass: 1234 | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: admin | Pass: password | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: admin | Pass: admin | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: admin | Pass: toor | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: admin | Pass:  | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: admin | Pass: saibandi | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: user | Pass: 1234 | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: user | Pass: password | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: user | Pass: admin | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: user | Pass: toor | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: user | Pass:  | Result: FAILED
+Tue Apr 08 18:04:08 UTC 2025 | Target: localhost:3306 | User: user | Pass: saibandi | Result: FAILED
+Tue Apr 08 18:21:26 UTC 2025 | Target: localhost:22 | User: root | Pass: 1234 | Result: FAILED
+Tue Apr 08 18:21:26 UTC 2025 | Target: localhost:22 | User: root | Pass: password | Result: FAILED
+Tue Apr 08 18:21:26 UTC 2025 | Target: localhost:22 | User: root | Pass: admin | Result: FAILED
+Tue Apr 08 18:21:26 UTC 2025 | Target: localhost:22 | User: root | Pass: toor | Result: FAILED
+Tue Apr 08 18:21:26 UTC 2025 | Target: localhost:22 | User: root | Pass:  | Result: FAILED
+Tue Apr 08 18:21:26 UTC 2025 | Target: localhost:22 | User: root | Pass: saibandi | Result: FAILED
+Tue Apr 08 18:21:26 UTC 2025 | Target: localhost:22 | User: admin | Pass: 1234 | Result: FAILED
+Tue Apr 08 18:21:26 UTC 2025 | Target: localhost:22 | User: admin | Pass: password | Result: FAILED
+Tue Apr 08 18:21:26 UTC 2025 | Target: localhost:22 | User: admin | Pass: admin | Result: FAILED
+Tue Apr 08 18:21:26 UTC 2025 | Target: localhost:22 | User: admin | Pass: toor | Result: FAILED
+Tue Apr 08 18:21:27 UTC 2025 | Target: localhost:22 | User: admin | Pass:  | Result: FAILED
+Tue Apr 08 18:21:27 UTC 2025 | Target: localhost:22 | User: admin | Pass: saibandi | Result: FAILED
+Tue Apr 08 18:21:27 UTC 2025 | Target: localhost:22 | User: user | Pass: 1234 | Result: FAILED
+Tue Apr 08 18:21:27 UTC 2025 | Target: localhost:22 | User: user | Pass: password | Result: FAILED
+Tue Apr 08 18:21:27 UTC 2025 | Target: localhost:22 | User: user | Pass: admin | Result: FAILED
+Tue Apr 08 18:21:27 UTC 2025 | Target: localhost:22 | User: user | Pass: toor | Result: FAILED
+Tue Apr 08 18:21:27 UTC 2025 | Target: localhost:22 | User: user | Pass:  | Result: FAILED
+Tue Apr 08 18:21:27 UTC 2025 | Target: localhost:22 | User: user | Pass: saibandi | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: root | Pass: 1234 | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: root | Pass: password | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: root | Pass: admin | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: root | Pass: toor | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: root | Pass:  | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: root | Pass: saibandi | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: admin | Pass: 1234 | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: admin | Pass: password | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: admin | Pass: admin | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: admin | Pass: toor | Result: FAILED
+Tue Apr 08 18:22:56 UTC 2025 | Target: localhost:22 | User: admin | Pass:  | Result: FAILED
+Tue Apr 08 18:22:57 UTC 2025 | Target: localhost:22 | User: admin | Pass: saibandi | Result: FAILED
+Tue Apr 08 18:22:57 UTC 2025 | Target: localhost:22 | User: user | Pass: 1234 | Result: FAILED
+Tue Apr 08 18:22:57 UTC 2025 | Target: localhost:22 | User: user | Pass: password | Result: FAILED
+Tue Apr 08 18:22:57 UTC 2025 | Target: localhost:22 | User: user | Pass: admin | Result: FAILED
+Tue Apr 08 18:22:57 UTC 2025 | Target: localhost:22 | User: user | Pass: toor | Result: FAILED
+Tue Apr 08 18:22:57 UTC 2025 | Target: localhost:22 | User: user | Pass:  | Result: FAILED
+Tue Apr 08 18:22:57 UTC 2025 | Target: localhost:22 | User: user | Pass: saibandi | Result: FAILED
+Tue Apr 08 19:16:11 UTC 2025 | Target: localhost:22 | User: root | Pass: 1234 | Result: FAILED
+Tue Apr 08 19:16:11 UTC 2025 | Target: localhost:22 | User: root | Pass: password | Result: FAILED
+Tue Apr 08 19:16:11 UTC 2025 | Target: localhost:22 | User: root | Pass: admin | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: root | Pass: toor | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: root | Pass:  | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: root | Pass: saibandi | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: admin | Pass: 1234 | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: admin | Pass: password | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: admin | Pass: admin | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: admin | Pass: toor | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: admin | Pass:  | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: admin | Pass: saibandi | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: user | Pass: 1234 | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: user | Pass: password | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: user | Pass: admin | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: user | Pass: toor | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: user | Pass:  | Result: FAILED
+Tue Apr 08 19:16:12 UTC 2025 | Target: localhost:22 | User: user | Pass: saibandi | Result: FAILED

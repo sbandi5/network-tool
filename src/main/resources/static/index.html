@@ -65,7 +65,7 @@
       logBox.textContent = "Running recon...";
       tableBody.innerHTML = "";
 
-      fetch(`http://localhost:8080/api/smart/recon?target=${target}&startPort=${startPort}&endPort=${endPort}`)
+      fetch(`/api/smart/recon?target=${target}&startPort=${startPort}&endPort=${endPort}`)
         .then(res => res.text())
         .then(text => {
           logBox.textContent = text;
