@@ -63,7 +63,7 @@ function startLive() {
         return;
     }
 
-    liveSocket = new WebSocket("ws://www.saimanikiranbandi.com:8080/ws/packets");
+    liveSocket = new WebSocket("wss://www.saimanikiranbandi.com:8080/ws/packets");
 
     liveSocket.onmessage = function (event) {
         const pkt = JSON.parse(event.data);

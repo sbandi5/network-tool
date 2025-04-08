@@ -117,7 +117,9 @@
           return;
       }
 
-      liveSocket = new WebSocket("ws://www.saimanikiranbandi.com:8080/ws/packets");
+      let wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      let wsUrl = `${wsProtocol}//${window.location.host}/ws/packets`;
+      liveSocket = new WebSocket(wsUrl);
 
       liveSocket.onmessage = function (event) {
           const pkt = JSON.parse(event.data);
