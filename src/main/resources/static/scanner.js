@@ -17,9 +17,30 @@ function startScan() {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        output.textContent = JSON.stringify(data, null, 2);
+        output.textContent = JSON.stringify(data, null, 2); // still show raw result
+      
+        // Set OS info
+        const osSpan = document.getElementById("osResult");
+        osSpan.textContent = data.os || "-";
+      
+        // Fill table
+        const tableBody = document.querySelector("#scanTable tbody");
+        tableBody.innerHTML = ""; // clear old rows
+      
+        const ports = data.ports || {};
+        for (const key in ports) {
+          const row = ports[key];
+          const tr = document.createElement("tr");
+      
+          const cleanService = (row.service || "").replace(/[\u0000-\u001F]/g, "").trim();
+      
+          tr.innerHTML = `
+            <td>${row.port}</td>
+            <td>${cleanService || "N/A"}</td>
+            <td>${row.status}</td>
+          `;
+          tableBody.appendChild(tr);
+        }
       })
-      .catch(err => {
-        output.textContent = "Error: " + err;
-      });
+      
   }

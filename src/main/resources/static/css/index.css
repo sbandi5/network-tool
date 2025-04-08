@@ -125,3 +125,27 @@ table th {
 table tr:hover {
   background-color: #1e222d;
 }
+
+/* Scanner results table */
+
+#scanTable {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+#scanTable th, #scanTable td {
+  padding: 10px;
+  border-bottom: 1px solid #2b2e3b;
+  text-align: left;
+}
+
+#scanTable th {
+  background-color: #1a1c23;
+  color: #61dafb;
+}
+
+#scanTable tr:hover {
+  background-color: #1e222d;
+}

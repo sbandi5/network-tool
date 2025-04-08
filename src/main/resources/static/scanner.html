@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>CyberStream - Port Scanner</title>
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="./css/index.css">
   <link rel="shortcut icon" href="./Images/logo.webp" type="image/x-icon">
 </head>
+
 <body>
   <header>
     <img src="./Images/logo.webp" alt="Logo">
@@ -47,9 +49,23 @@
       <button onclick="startScan()">Start Scan</button>
 
       <pre id="scannerOutput">[Scanner results will appear here]</pre>
+      <h3>Detected OS: <span id="osResult">-</span></h3>
+
+      <table id="scanTable">
+        <thead>
+          <tr>
+            <th>Port</th>
+            <th>Service</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
     </section>
   </main>
 
   <script src="./scanner.js"> </script>
 </body>
+
 </html>
