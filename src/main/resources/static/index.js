@@ -1,5 +1,3 @@
-import ApiCalls from "./ApiCalls";
-const apiCalls = new ApiCalls();
 function displayContainer() {
     var scanType = document.getElementById("scanType").value;
     console.log(scanType);

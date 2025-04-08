@@ -1,5 +1,3 @@
-import ApiCalls from "./ApiCalls";
-const apiCalls = new ApiCalls();
 function togglePortInput() {
     const mode = document.getElementById("mode").value;
     const portDiv = document.getElementById("portInput");

@@ -1,5 +1,3 @@
-import ApiCalls from "./ApiCalls";
-const apiCalls = new ApiCalls();
 function startScan() {
     const target = document.getElementById("target").value;
     const startPort = parseInt(document.getElementById("startPort").value);
