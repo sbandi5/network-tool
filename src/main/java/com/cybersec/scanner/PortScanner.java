@@ -76,8 +76,7 @@ public class PortScanner {
         // Create a thread for each port scan
         for (int port = startPort; port <= endPort; port++) {
             final int currentPort = port; // Use a final variable for the lambda
-            new Thread(() -> {
-                Map<String, String> result = tcpConnectScan(target, currentPort);
+            Map<String, String> result = tcpConnectScan(target, currentPort);
                 
                 if (result.get("status").equals("open")) {
                     synchronized (portResults) {
@@ -85,7 +84,7 @@ public class PortScanner {
                     }
                     System.out.println("Port " + currentPort + " is open. Service: " + result.get("service"));
                 }
-            }).start();
+
         }
 
         // Wait for all threads to complete
