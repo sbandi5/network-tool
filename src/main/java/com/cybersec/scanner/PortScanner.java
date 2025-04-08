@@ -87,12 +87,7 @@ public class PortScanner {
 
         }
 
-        // Wait for all threads to complete
-        try {
-            Thread.sleep((endPort - startPort + 1) * TIMEOUT);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+    
 
         // Detect OS
         Map<String, String> detectedOS = DetectOs.detectOs(target);
