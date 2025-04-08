@@ -4,43 +4,47 @@ function startScan() {
     const endPort = parseInt(document.getElementById("endPort").value);
     const scanType = document.getElementById("scanType").value;
     const output = document.getElementById("scannerOutput");
+    const tableBody = document.querySelector("#scanTable tbody");
 
+    // Clear previous results
     output.textContent = "Scanning...";
+    tableBody.innerHTML = "";
 
     let url = '';
     if(scanType === 'full') {
-      url = `/api/scanner/full?target=${target}&startPort=${startPort}&endPort=${endPort}`;
+        url = `/api/scanner/full?target=${target}&startPort=${startPort}&endPort=${endPort}`;
     } else {  
-       url =`/api/scanner/${scanType}?target=${target}&port=${startPort}`;
+        url =`/api/scanner/${scanType}?target=${target}&port=${startPort}`;
     }
 
     fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        output.textContent = JSON.stringify(data, null, 2); // still show raw result
-      
-        // Set OS info
-        const osSpan = document.getElementById("osResult");
-        osSpan.textContent = data.os || "-";
-      
-        // Fill table
-        const tableBody = document.querySelector("#scanTable tbody");
-        tableBody.innerHTML = ""; // clear old rows
-      
-        const ports = data.ports || {};
-        for (const key in ports) {
-          const row = ports[key];
-          const tr = document.createElement("tr");
-      
-          const cleanService = (row.service || "").replace(/[\u0000-\u001F]/g, "").trim();
-      
-          tr.innerHTML = `
-            <td>${row.port}</td>
-            <td>${cleanService || "N/A"}</td>
-            <td>${row.status}</td>
-          `;
-          tableBody.appendChild(tr);
-        }
-      })
-      
-  }
+        .then(res => res.json())
+        .then(data => {
+            // Display raw output
+            output.textContent = JSON.stringify(data, null, 2);
+
+            // Set OS info
+            const osSpan = document.getElementById("osResult");
+            osSpan.textContent = "Completed";
+
+            // Handle the ports data
+            if (data && data.ports) {
+                Object.entries(data.ports).forEach(([port, info]) => {
+                    const tr = document.createElement("tr");
+                    const status = info.status || "Unknown";
+                    const service = (info.service || "").replace(/[\u0000-\u001F]/g, "").trim() || "N/A";
+                    
+                    tr.innerHTML = `
+                        <td>${port}</td>
+                        <td>${service}</td>
+                        <td>${status}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            }
+        })
+        .catch(error => {
+            output.textContent = `Error: ${error.message}`;
+            console.error('Scan error:', error);
+        });
+}
